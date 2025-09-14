@@ -3,26 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   list.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mihai.blandu <mihai.blandu@ctif.gov.md>    +#+  +:+       +#+        */
+/*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 22:12:34 by mihai.bland       #+#    #+#             */
-/*   Updated: 2024/02/28 22:12:59 by mihai.bland      ###   ########.fr       */
+/*   Created: 2025/09/14 20:30:00 by mihaiblandu       #+#    #+#             */
+/*   Updated: 2025/09/14 21:29:34 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_H
 # define LIST_H
 
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}				t_list;
+# include <stddef.h>
+# include <stdlib.h>
+# include <stdio.h>
 
-typedef struct s_arraylist
+typedef struct s_dynamic_list
 {
-	void	*array;
+	void	**data;
 	size_t	size;
-}				t_arraylist;
+	size_t	capacity;
+	size_t	element_size;
+}	DynamicList;
+
+DynamicList	*list_create(size_t element_size);
+int			list_add(DynamicList *list, const void *element);
+void		*list_get(DynamicList *list, size_t index);
+int			list_remove(DynamicList *list, size_t index);
+size_t		list_size(DynamicList *list);
+void		list_free(DynamicList *list);
 
 #endif

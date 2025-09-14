@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "list.h"
+#include "./includes/libft.h"
+#include "./includes/list.h"
 
 void	*ft_arraylist_new(size_t size)
 {

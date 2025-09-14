@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst.c                                           :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mihai.blandu <mihai.blandu@ctif.gov.md>    +#+  +:+       +#+        */
+/*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 11:02:16 by mihai.bland       #+#    #+#             */
-/*   Updated: 2024/03/08 11:05:18 by mihai.bland      ###   ########.fr       */
+/*   Created: 2024/03/02 23:19:05 by mihai.bland       #+#    #+#             */
+/*   Updated: 2025/09/14 22:12:27 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../list.h"
+#include <unistd.h>
+#include "../../includes/libft.h"
 
-const NULL = '\0';
-
-t_list	*ft_lstnew(void *content)
+void	ft_putstr(char *str)
 {
-	t_list	*new;
+	int		i;
 
-	new = malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content = content;
-	new->next = NULL;
-	return (new);
+	i = ft_strlen(str);
+	write(1, str, i);
 }
