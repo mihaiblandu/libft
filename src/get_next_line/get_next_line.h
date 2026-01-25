@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_map.h                                         :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/31 16:20:32 by mihaiblandu       #+#    #+#             */
-/*   Updated: 2026/01/03 21:06:28 by mihaiblandu      ###   ########.fr       */
+/*   Created: 2026/01/04 00:00:00 by mihaiblandu       #+#    #+#             */
+/*   Updated: 2026/01/08 23:47:35 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_H
-# define MAP_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+# include <unistd.h>
+# include <stdlib.h>
 # include "../libft.h"
 
+char	*get_next_line(int fd);
+
 #endif
+

@@ -6,14 +6,13 @@
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 11:02:16 by mihai.bland       #+#    #+#             */
-/*   Updated: 2026/01/03 20:11:28 by mihaiblandu      ###   ########.fr       */
+/*   Updated: 2026/01/25 23:45:56 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "list.h"
-#include <stdlib.h>
 
-int		ft_list_size(t_list *list)
+int		ft_lstsize(t_list *list)
 {
 	int		size;
 	t_list	*l;
@@ -40,7 +39,7 @@ t_list	*ft_lstnew(void *content)
 	return (new);
 }
 
-t_list *ft_list_add(t_list *list, void *content)
+t_list *ft_lst_add(t_list *list, void *content)
 {
 	t_list *new;
 	
@@ -95,39 +94,40 @@ void ft_lst_pop(t_list **list)
 }
 
 // add to start
-t_list *ft_lst_add_start(t_list **list, void *content)
+void ft_lstadd_front(t_list **lst, t_list *new)
 {
-	t_list *head;
-	t_list *new;
-
-	head = *list;
-	while (head->prev)
+	if (!lst || !new)
+		return;
+	if (*lst)
 	{
-		head = head->prev;
+		new->next = *lst;
+		(*lst)->prev = new;
 	}
-    new = ft_lstnew(content);
-    new->prev = NULL;
-    new->next = head;
-    head->prev = new;
-    return (new);
+	else
+		new->next = NULL;
+	new->prev = NULL;
+	*lst = new;
 }
 
-t_list *ft_lstadd_back(t_list *list, void *content)
+void ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list *new;
 	t_list *tail;
 
-	if (!list)
-		return (ft_lstnew(content));
-	tail = list;
-	while (tail->next)
+	if (!lst || !new)
+		return;
+	if (!*lst)
 	{
-		tail = tail->next;
+		*lst = new;
+		new->next = NULL;
+		new->prev = NULL;
+		return;
 	}
-	new = ft_lstnew(content);
+	tail = *lst;
+	while (tail->next)
+		tail = tail->next;
 	tail->next = new;
 	new->prev = tail;
-	return (new);
+	new->next = NULL;
 }
 t_list *ft_lst_add_end(t_list **list, void *content)
 {

@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_map.h                                         :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/31 16:20:32 by mihaiblandu       #+#    #+#             */
-/*   Updated: 2026/01/03 21:06:28 by mihaiblandu      ###   ########.fr       */
+/*   Created: 2026/01/09 00:18:02 by mihaiblandu       #+#    #+#             */
+/*   Updated: 2026/01/09 00:22:03 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_H
-# define MAP_H
+#include "../libft.h"
 
-# include "../libft.h"
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	const unsigned char	*ptr;
 
-#endif
+	ptr = (const unsigned char *)s;
+	while (n--)
+    {
+		if (*ptr == (unsigned char)c)
+			return ((void *)ptr);
+		ptr++;
+    }
+	return (NULL);
+}

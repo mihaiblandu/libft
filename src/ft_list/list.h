@@ -6,7 +6,7 @@
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:12:34 by mihai.bland       #+#    #+#             */
-/*   Updated: 2026/01/03 17:15:20 by mihaiblandu      ###   ########.fr       */
+/*   Updated: 2026/01/04 23:27:36 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 	struct s_list	*prev;
-	struct s_list	*head;
-	struct s_list	*tail;
-	size_t			size;
+
 }				t_list;
 
 typedef struct s_arraylist
@@ -30,5 +28,20 @@ typedef struct s_arraylist
 	void	*array;
 	size_t	size;
 }				t_arraylist;
+
+typedef struct s_slice
+{
+	void	*data;
+	size_t	start;
+	size_t	len;
+	size_t	elem_size;
+	int		owned;
+}				t_slice;
+
+t_list	*ft_lstnew(void *content);
+int		ft_lstsize(t_list *list);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstadd_end(t_list **list, void *content);
 
 #endif

@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_map.h                                         :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/31 16:20:32 by mihaiblandu       #+#    #+#             */
-/*   Updated: 2026/01/03 21:06:28 by mihaiblandu      ###   ########.fr       */
+/*   Created: 2026/01/09 00:47:36 by mihaiblandu       #+#    #+#             */
+/*   Updated: 2026/01/26 00:08:39 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_H
-# define MAP_H
+#include "../libft.h"
 
-# include "../libft.h"
+void ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
 
-#endif
+void ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	write(1, str, ft_strlen(str));
+}
+
+void	ft_putstr_fd(char *str, int fd)
+{
+	write(fd, str, ft_strlen(str));
+}

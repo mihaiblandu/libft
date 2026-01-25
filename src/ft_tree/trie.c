@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -11,9 +12,8 @@
 /* ************************************************************************** */
 
 #include "trie.h"
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
+#include "../libft.h"
+
 
 /*
 ** Create a new trie node
@@ -144,7 +144,7 @@ static bool	trie_delete_helper(t_trie **node, const char *key, size_t depth)
 	if (!*node)
 		return (false);
 	
-	if (depth == strlen(key))
+	if (depth == ft_strlen(key))
 	{
 		if (!(*node)->is_end)
 			return (false);

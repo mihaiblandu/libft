@@ -6,123 +6,186 @@
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 16:21:42 by mihaiblandu       #+#    #+#             */
-/*   Updated: 2026/01/02 23:38:44 by mihaiblandu      ###   ########.fr       */
+/*   Updated: 2026/01/09 05:27:02 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <string.h>
 #include "hash_map.h"
 
-static unsigned int	hash(const char *key, int size)
+static unsigned int hash(const char *key)
 {
-    unsigned long	hash;
-    int				c;
+	unsigned int	hash;
+	int				i;
 
-    hash = 5381; // why 5381? it's a magic number from the original djb2 algorithm
-    while ((c = *key++))
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-    return (hash % size);
+	hash = 0;
+	i = 0;
+	while (key[i])
+	{
+		hash = (hash * 31) + key[i];
+		i++;
+	}
+	return (hash % MAP_SIZE);
 }
 
-t_hash_map	*hash_map_create(int size)
+// Create a new map
+t_map *map_create(void)
 {
-    t_hash_map	*map;
-    int			i;
+	t_map	*map;
 
-    map = malloc(sizeof(t_hash_map));
-    if (!map)
-        return (NULL);
-    map->buckets = malloc(sizeof(t_node *) * size);
-    if (!map->buckets)
-    {
-        free(map);
-        return (NULL);
-    }
-    i = 0;
-    while (i < size)
-    {
-        map->buckets[i] = NULL;
-        i++;
-    }
-    map->size = size;
-    map->count = 0;
-    return (map);
+	map = malloc(sizeof(t_map));
+	if (!map)
+		return (NULL);
+	ft_bzero(map->buckets, sizeof(map->buckets));
+	map->size = 0;
+	return (map);
 }
 
-void	hash_map_insert(t_hash_map *map, char *key, void *value)
+// Put key-value pair into map
+void map_put(t_map *map, const char *key, void *value)
 {
-    unsigned int	index;
-    t_node			*new_node;
-    t_node			*current;
+	unsigned int	index;
+	t_map_entry		*entry;
+	t_map_entry		*new_entry;
 
-    if (!map || !key)
-        return ;
-    index = hash(key, map->size);
-    new_node = malloc(sizeof(t_node));
-    if (!new_node)
-        return ;
-    new_node->key = key;
-    new_node->value = value;
-    new_node->next = NULL;
-    if (!map->buckets[index])
-    {
-        map->buckets[index] = new_node;
-    }
-    else
-    {
-        current = map->buckets[index];
-        while (current->next)
-            current = current->next;
-        current->next = new_node;
-    }
-    map->count++;
+	if (!map || !key)
+		return;
+	index = hash(key);
+	entry = map->buckets[index];
+	
+	// Check if key already exists
+	while (entry)
+	{
+		if (ft_strcmp(entry->key, key) == 0)
+		{
+			entry->value = value;  // Update existing value
+			return;
+		}
+		entry = entry->next;
+	}
+	
+	// Create new entry
+	new_entry = malloc(sizeof(t_map_entry));
+	if (!new_entry)
+		return;
+	new_entry->key = ft_strdup(key);
+	if (!new_entry->key)
+	{
+		free(new_entry);
+		return;
+	}
+	new_entry->value = value;
+	new_entry->next = map->buckets[index];
+	map->buckets[index] = new_entry;
+	map->size++;
 }
 
-void	*hash_map_get(t_hash_map *map, char *key)
+// Get value by key
+void *map_get(t_map *map, const char *key)
 {
-    unsigned int	index;
-    t_node			*current;
+	unsigned int	index;
+	t_map_entry		*entry;
 
-    if (!map || !key)
-        return (NULL);
-    index = hash(key, map->size);
-    current = map->buckets[index];
-    while (current)
-    {
-        if (current->key && strcmp(current->key, key) == 0)
-            return (current->value);
-        current = current->next;
-    }
-    return (NULL);
+	if (!map || !key)
+		return (NULL);
+	index = hash(key);
+	entry = map->buckets[index];
+	while (entry)
+	{
+		if (ft_strcmp(entry->key, key) == 0)
+			return (entry->value);
+		entry = entry->next;
+	}
+	return (NULL);
 }
 
-void	hash_map_remove(t_hash_map *map, char *key)
+// Check if key exists
+int map_contains(t_map *map, const char *key)
 {
-    unsigned int	index;
-    t_node			*current;
-    t_node			*prev;
+	unsigned int	index;
+	t_map_entry		*entry;
 
-    if (!map || !key)
-        return ;
-    index = hash(key, map->size);
-    current = map->buckets[index];
-    prev = NULL;
-    while (current)
-    {
-        if (current->key && strcmp(current->key, key) == 0)
-        {
-            if (prev)
-                prev->next = current->next;
-            else
-                map->buckets[index] = current->next;
-            free(current);
-            map->count--;
-            return ;
-        }
-        prev = current;
-        current = current->next;
-    }
+	if (!map || !key)
+		return (0);
+	index = hash(key);
+	entry = map->buckets[index];
+	while (entry)
+	{
+		if (ft_strcmp(entry->key, key) == 0)
+			return (1);
+		entry = entry->next;
+	}
+	return (0);
 }
 
+// Remove entry by key
+void map_remove(t_map *map, const char *key)
+{
+	unsigned int	index;
+	t_map_entry		*entry;
+	t_map_entry		*prev;
 
+	if (!map || !key)
+		return;
+	index = hash(key);
+	entry = map->buckets[index];
+	prev = NULL;
+	while (entry)
+	{
+		if (ft_strcmp(entry->key, key) == 0)
+		{
+			if (prev)
+				prev->next = entry->next;
+			else
+				map->buckets[index] = entry->next;
+			free(entry->key);
+			free(entry);
+			map->size--;
+			return;
+		}
+		prev = entry;
+		entry = entry->next;
+	}
+}
+
+// Clear all entries
+void map_clear(t_map *map)
+{
+	int			i;
+	t_map_entry	*entry;
+	t_map_entry	*next;
+
+	if (!map)
+		return;
+	i = 0;
+	while (i < MAP_SIZE)
+	{
+		entry = map->buckets[i];
+		while (entry)
+		{
+			next = entry->next;
+			free(entry->key);
+			free(entry);
+			entry = next;
+		}
+		map->buckets[i] = NULL;
+		i++;
+	}
+	map->size = 0;
+}
+
+// Free the map
+void map_free(t_map *map)
+{
+	if (!map)
+		return;
+	map_clear(map);
+	free(map);
+}
+
+// Get map size
+int map_size(t_map *map)
+{
+	if (!map)
+		return (0);
+	return (map->size);
+}

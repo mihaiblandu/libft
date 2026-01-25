@@ -6,7 +6,7 @@
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 21:40:37 by mihaiblandu       #+#    #+#             */
-/*   Updated: 2026/01/03 00:09:08 by mihaiblandu      ###   ########.fr       */
+/*   Updated: 2026/01/25 23:59:48 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,4 +165,33 @@ void	array_list_foreach(t_array_list *list, void (*f)(void *))
 		f(list->data[i]);
 		i++;
 	}
+}
+
+t_array_list	*array_list_slice(t_array_list *list, size_t start, size_t len)
+{
+	t_array_list	*slice;
+	size_t			i;
+	size_t			actual_len;
+
+	if (!list)
+		return (NULL);
+	if (start >= list->size)
+		return (array_list_create());
+	actual_len = len;
+	if (start + len > list->size)
+		actual_len = list->size - start;
+	slice = array_list_new(actual_len);
+	if (!slice)
+		return (NULL);
+	i = 0;
+	while (i < actual_len)
+	{
+		if (!array_list_add(slice, list->data[start + i]))
+		{
+			array_list_free(slice);
+			return (NULL);
+		}
+		i++;
+	}
+	return (slice);
 }

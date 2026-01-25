@@ -6,11 +6,9 @@
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 21:41:51 by mihaiblandu       #+#    #+#             */
-/*   Updated: 2026/01/02 23:39:58 by mihaiblandu      ###   ########.fr       */
+/*   Updated: 2026/01/25 23:38:30 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include <stddef.h>
 
@@ -41,5 +39,6 @@ void			*array_list_get(t_array_list *list, size_t index);
 size_t			array_list_size(t_array_list *list);
 void			array_list_reverse(t_array_list *list);
 void			array_list_foreach(t_array_list *list, void (*f)(void *));
+t_array_list	*array_list_slice(t_array_list *list, size_t start, size_t len);
 
 #endif

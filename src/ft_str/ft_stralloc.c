@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_map.h                                         :+:      :+:    :+:   */
+/*   ft_stralloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mihaiblandu <mihaiblandu@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/31 16:20:32 by mihaiblandu       #+#    #+#             */
-/*   Updated: 2026/01/03 21:06:28 by mihaiblandu      ###   ########.fr       */
+/*   Created: 2026/01/08 23:48:11 by mihaiblandu       #+#    #+#             */
+/*   Updated: 2026/01/08 23:51:31 by mihaiblandu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_H
-# define MAP_H
+#include <stdlib.h>
 
-# include "../libft.h"
+char	*ft_stralloc(size_t size)
+{
+	char	*str;
 
-#endif
+	str = (char *)malloc(size);
+	if (!str)
+		return (NULL);
+	return (str);
+}
+
+void	ft_stralloc_free(char *str)
+{
+	if (!str)
+		return; 
+	free(str);
+}
